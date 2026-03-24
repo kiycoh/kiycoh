@@ -1,6 +1,6 @@
 <a href="https://github.com/kiycoh/kiycoh">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kiycoh/kiycoh/main/dark_mode.svg?v=1774318451">
-    <img alt="kiycoh's GitHub Profile README" src="https://raw.githubusercontent.com/kiycoh/kiycoh/main/light_mode.svg?v=1774318451">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kiycoh/kiycoh/main/dark_mode.svg?v=1774318512">
+    <img alt="kiycoh's GitHub Profile README" src="https://raw.githubusercontent.com/kiycoh/kiycoh/main/light_mode.svg?v=1774318512">
   </picture>
 </a>
