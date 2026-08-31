@@ -46,6 +46,9 @@ def simple_request(func_name, query, variables):
     """
     request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables':variables}, headers=HEADERS)
     if request.status_code == 200:
+        errors = request.json().get('errors')
+        if errors: # a 200 with errors means partial data: fail loudly instead of writing a wrong number
+            raise Exception(func_name, ' returned GraphQL errors:', errors, QUERY_COUNT)
         return request
     raise Exception(func_name, ' has failed with a', request.status_code, request.text, QUERY_COUNT)
 
@@ -84,9 +87,7 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
                     node {
                         ... on Repository {
                             nameWithOwner
-                            stargazers {
-                                totalCount
-                            }
+                            stargazerCount
                         }
                     }
                 }
@@ -311,13 +312,7 @@ def stars_counter(data):
     """
     Count total stars in repositories owned by me
     """
-    total_stars = 0
-    for edge in data:
-        repo = edge.get('node') if isinstance(edge, dict) else None
-        if repo is None:
-            continue
-        total_stars += (repo.get('stargazers') or {}).get('totalCount', 0)
-    return total_stars
+    return sum(node['node']['stargazerCount'] for node in data)
 
 
 def svg_overwrite(filename, age_data, commit_data, star_data, repo_data, contrib_data, follower_data, loc_data):
